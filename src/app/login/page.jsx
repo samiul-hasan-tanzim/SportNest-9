@@ -4,14 +4,33 @@ import Link from "next/link";
 
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
+        const userData = Object.fromEntries(formData.entries());
+        const { data, error } = await authClient.signIn.email({
+            ...userData
+        });
+        if (data) {
+            toast.success('Login Successfull')
+            redirect('/')
+        }
+        if (error) {
+            toast.error(error.message)
+        }
+    };
+
+    const handelSocialAuth = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+        });
     };
 
     return (
@@ -88,6 +107,7 @@ const LoginPage = () => {
                     </div>
 
                     <Button
+                        onClick={handelSocialAuth}
                         variant="bordered"
                         className="w-full rounded-2xl border-slate-300 font-medium"
                     >

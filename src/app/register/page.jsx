@@ -3,17 +3,34 @@ import Link from "next/link";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 
 
 const RegisterPage = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
+        const userData = Object.fromEntries(formData.entries());
+        const { data, error } = await authClient.signUp.email({
+            ...userData
+        });
+        if (data) {
+            toast.success('Login Successfull')
+            redirect('/login')
+        }
+        if (error) {
+            toast.error(error.message)
+        }
+    };
 
-        console.log(data);
+    const handelSocialAuth = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+        });
     };
 
     return (
@@ -126,6 +143,7 @@ const RegisterPage = () => {
                         <div className="flex-1 h-px bg-slate-200"></div>
                     </div>
                     <Button
+                        onClick={handelSocialAuth}
                         variant="bordered"
                         className="w-full rounded-2xl border-slate-300 font-medium"
                     >
