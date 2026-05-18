@@ -6,7 +6,8 @@ import { FaCalendarCheck, FaPlusCircle, FaFutbol, FaSignOutAlt, FaChevronDown, F
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { Avatar } from "@heroui/react";
+import { Avatar, Switch } from "@heroui/react";
+import { Moon, Sun } from "@gravity-ui/icons";
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -75,6 +76,25 @@ export default function Navbar() {
                                                 </div>
                                             </div>
 
+                                            <div className="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
+                                                <span className="text-sm font-medium text-slate-700">Theme</span>
+
+                                                <Switch defaultSelected size="lg">
+                                                    {({ isSelected }) => (
+                                                        <Switch.Control>
+                                                            <Switch.Thumb>
+                                                                <Switch.Icon>
+                                                                    {isSelected ? (
+                                                                        <Sun className="size-3 text-inherit opacity-100" />
+                                                                    ) : (
+                                                                        <Moon className="size-3 text-inherit opacity-70" />
+                                                                    )}
+                                                                </Switch.Icon>
+                                                            </Switch.Thumb>
+                                                        </Switch.Control>
+                                                    )}
+                                                </Switch>
+                                            </div>
                                             <div className="p-2">
                                                 <Link href="/my-bookings" onClick={() => setProfileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-700 hover:bg-green-50 transition"><FaCalendarCheck className="text-green-500" /><span className="font-medium">My Bookings</span></Link>
                                                 <Link href="/add-facility" onClick={() => setProfileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-700 hover:bg-green-50 transition"><FaPlusCircle className="text-green-500" /><span className="font-medium">Add Facility</span></Link>
@@ -98,7 +118,7 @@ export default function Navbar() {
                     {/* Mobile Hamburger */}
                     {
                         user ? (
-                            <div className="md:hidden flex items-center">
+                            <div className="md:hidden flex gap-5 items-center">
                                 <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-gray-700 hover:text-green-600 focus:outline-none text-2xl">
                                     {
                                         mobileMenuOpen ? <FaTimes /> : <FaBars />
@@ -106,7 +126,7 @@ export default function Navbar() {
                                 </button>
                             </div>
                         ) :
-                            <div className="md:hidden flex gap5 items-center">
+                            <div className="md:hidden flex gap-5 items-center">
                                 <Link href="/login">
                                     <button className="cursor-pointer px-5 py-2 rounded-lg bg-linear-to-r from-emerald-500 to-teal-500 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] transition">
                                         Login
@@ -123,23 +143,39 @@ export default function Navbar() {
 
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden mt-2 space-y-1 px-2 pb-3">
-                        <Link href="/" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-green-50">Home</Link>
-                        <Link href="/facilities" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-green-50">All Facilities</Link>
-                        {
-                            user && (
-                                <div>
-                                    <Link href="/my-bookings" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-green-50">My Bookings</Link>
-                                    <Link href="/add-facility" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-green-50">Add Facility</Link>
-                                    <Link href="/manage-facilities" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-green-50">Manage My Facilities</Link>
-                                </div>
-                            )
-                        }
-                        <button onClick={() => {
-                            authClient.signOut(); setMobileMenuOpen(false); router.push('/login');
-                        }} className="block w-full text-left px-3 py-2 text-red-500 hover:bg-red-50 rounded-md transition">
-                            Logout
-                        </button>
+                    <div className="md:hidden mt-3 px-2 pb-4">
+                        <div className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
+
+                            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 text-gray-700">
+                                <FaFutbol className="text-green-500" /> Home
+                            </Link>
+
+                            <Link href="/facilities" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 text-gray-700">
+                                <FaFutbol className="text-green-500" /> All Facilities
+                            </Link>
+
+                            {user && (
+                                <>
+                                    <Link href="/my-bookings" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 text-gray-700">
+                                        <FaCalendarCheck className="text-green-500" /> My Bookings
+                                    </Link>
+
+                                    <Link href="/add-facility" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 text-gray-700">
+                                        <FaPlusCircle className="text-green-500" /> Add Facility
+                                    </Link>
+
+                                    <Link href="/manage-facilities" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 text-gray-700">
+                                        <FaFutbol className="text-green-500" /> Manage Facilities
+                                    </Link>
+
+                                    <div className="border-t border-slate-100" />
+
+                                    <button onClick={() => { authClient.signOut(); setMobileMenuOpen(false); router.push("/login"); }} className="flex items-center gap-3 w-full px-4 py-3 text-red-500 hover:bg-red-50">
+                                        <FaSignOutAlt /> Logout
+                                    </button>
+                                </>
+                            )}
+                        </div>
                     </div>
                 )}
             </div>
