@@ -74,7 +74,7 @@ const RegisterPage = () => {
                     </TextField>
                     <TextField
                         isRequired
-                        name="photo"
+                        name="image"
                         type="url"
                         validate={(value) => {
                             try {
