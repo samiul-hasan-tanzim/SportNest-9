@@ -7,3 +7,9 @@ export const singleFacilitiesData = async (id) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities/${id}`)
     return res.json()
 }
+
+
+export const bookingData = async (userEmail) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/bookings/${userEmail}`)
+    return res.json()
+}

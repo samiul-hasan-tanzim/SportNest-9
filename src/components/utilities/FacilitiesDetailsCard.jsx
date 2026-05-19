@@ -3,6 +3,7 @@ import { authClient } from "@/lib/auth-client";
 import { DateField, Label } from "@heroui/react";
 import Image from "next/image";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FaMapMarkerAlt, FaUsers, FaStar, FaClock, FaPhone, FaCheckCircle } from "react-icons/fa";
 
 const FacilitiesDetailsCard = ({ facility }) => {
@@ -15,24 +16,34 @@ const FacilitiesDetailsCard = ({ facility }) => {
 
     const handelBookingData = async () => {
         const bookingData = {
-            facility_id: facility._id,
             user_email: user?.email,
-            date: new Date(date),
-            timeSlot,
+            facility_id: facility._id, //
+            name: facility.name, //
+            location: facility.location, //
+            date: new Date(date), //
+            timeSlot, //
+            capacity: facility.capacity,
+            image: facility.image, //
+            rating: facility.rating,
             hours,
+            reviews: facility.total_reviews,
+            distance: "3km from city",
+            amenities: facility.amenities,
+            is_popular: true,
+            facility_type: facility.facility_type,
             price: facility.price_per_hour,
-            status: 'pending'
+            status: 'pending' //
         }
         console.log(bookingData)
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/bookings`, {
             method: 'POST',
             headers: {
-                'Content-type': 'application/json'
+                'content-type': 'application/json'
             },
             body: JSON.stringify(bookingData)
         })
         const data = await res.json()
-        console.log(data)
+        toast.success("Your Booking Successfull")
     }
 
 
