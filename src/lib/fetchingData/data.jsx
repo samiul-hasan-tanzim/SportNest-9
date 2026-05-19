@@ -1,0 +1,9 @@
+export const allFacilitiesData = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities`)
+    return res.json()
+}
+
+export const singleFacilitiesData = async (id) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities/${id}`)
+    return res.json()
+}
