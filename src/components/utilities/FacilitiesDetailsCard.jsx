@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { FaMapMarkerAlt, FaUsers, FaStar, FaClock, FaPhone, FaCheckCircle } from "react-icons/fa";
 
 const FacilitiesDetailsCard = ({ facility }) => {
+    console.log(facility)
     const { data: session, isPending } = authClient.useSession()
     const user = session?.user
 

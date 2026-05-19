@@ -1,45 +1,61 @@
 "use client";
-
+import { authClient } from "@/lib/auth-client";
 import { FloppyDisk, Plus, Xmark } from "@gravity-ui/icons";
-import {
-    Button,
-    Fieldset,
-    FieldGroup,
-    Form,
-    Input,
-    Label,
-    TextArea,
-    TextField,
-    Description
-} from "@heroui/react";
+import { Button, Fieldset, FieldGroup, Form, Input, Label, TextArea, TextField } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const AddFacilityPage = () => {
-    const [timeSlot, setTimeSlot] = useState("");
+    const { data: session, isPending, } = authClient.useSession()
+    const user = session?.user
+
+    const router = useRouter()
+    const [timeSlot, setTimeSlot] = useState([]);
     const [input, setInput] = useState("");
     const [amenities, setAmenities] = useState([]);
+
+    const toggleSlot = (slot) => {
+        if (timeSlot.includes(slot)) {
+            setTimeSlot(timeSlot.filter(s => s !== timeSlot));
+        } else {
+            setTimeSlot([...timeSlot, timeSlot]);
+        }
+    };
 
     const addAmenity = () => {
         if (!input.trim()) return;
         setAmenities([...amenities, input]);
         setInput("");
     };
-
     const removeAmenity = (item) => {
         setAmenities(amenities.filter((a) => a !== item));
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
 
-        const NewFacilityData = {
+        const newFacilityData = {
             ...data,
-            timeSlot,
-            amenities
+            slots: timeSlot,
+            amenities,
+            userId: user?.id
         };
-        console.log(NewFacilityData);
+        console.log(newFacilityData)
+        const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newFacilityData)
+        });
+        const res = await req.json();
+        console.log(res)
+        if (res.insertedId) {
+            // router.refresh()
+            router.push('/manage-facilities')
+        }
     };
 
     return (
@@ -183,22 +199,45 @@ const AddFacilityPage = () => {
 
                             </div>
 
-                            <div className="w-full">
+                            <div className="space-y-3 max-w-md">
+                                <label className="font-semibold text-gray-700">Select Slot</label>
 
-                                <label className="block mb-2 font-semibold text-gray-700">
-                                    Select Slot
-                                </label>
-
+                                {/* Dropdown for adding slots */}
                                 <select
-                                    onChange={(e) => setTimeSlot(e.target.value)}
+                                    value=""
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (value && !timeSlot.includes(value)) {
+                                            setTimeSlot([...timeSlot, value]);
+                                        }
+                                    }}
                                     className="w-full border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                                 >
-                                    <option value="">Choose a slot</option>
-                                    <option value="8-9">8:00 AM - 9:00 AM</option>
-                                    <option value="9-10">9:00 AM - 10:00 AM</option>
-                                    <option value="10-11">10:00 AM - 11:00 AM</option>
+                                    <option value="">Choose a slot...</option>
+                                    <option value="8:00 AM - 9:00 AM">8:00 AM - 9:00 AM</option>
+                                    <option value="9:00 AM - 10:00 AM">9:00 AM - 10:00 AM</option>
+                                    <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+                                    <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
                                 </select>
 
+                                {/* Display selected slots as tags */}
+                                <div className="flex flex-wrap gap-2 mt-2">
+                                    {timeSlot.map((slot) => (
+                                        <div
+                                            key={slot}
+                                            className="flex items-center gap-1 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full text-sm border border-emerald-200"
+                                        >
+                                            {slot}
+                                            <button
+                                                type="button"
+                                                onClick={() => setTimeSlot(timeSlot.filter((s) => s !== slot))}
+                                                className="hover:text-red-500"
+                                            >
+                                                <Xmark size={14} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
 
                             <TextField name="description" className="md:col-span-2">
