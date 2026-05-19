@@ -3,9 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaMapMarkerAlt, FaClock, FaStar, FaUsers, FaHeart } from "react-icons/fa";
+import DeleteModal from "./DeleteModal";
 
 const BookingCard = ({ booking }) => {
-    const { facility_id, name, location, image, rating, facility_type, date, timeSlot, capacity, price, status } = booking;
+    console.log(booking)
+    const { _id, facility_id, name, location, image, rating, facility_type, date, timeSlot, capacity, price, status } = booking;
 
     return (
         <div className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition duration-300 overflow-hidden flex flex-col lg:flex-row">
@@ -102,9 +104,7 @@ const BookingCard = ({ booking }) => {
                         </button>
                     </Link>
 
-                    <button className="w-full py-2 rounded-lg border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition duration-500 font-medium">
-                        Cancel Booking
-                    </button>
+                    <DeleteModal bookingId={_id} />
 
                 </div>
 
