@@ -1,21 +1,63 @@
+import { headers } from "next/headers"
+import { auth } from "../auth"
+
 export const allFacilitiesData = async (searchQuery = '') => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities?search=${searchQuery}`)
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    })
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities?search=${searchQuery}`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    })
     return res.json()
 }
 
+
+
+
+
 export const singleFacilitiesData = async (id) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities/${id}`)
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    })
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities/${id}`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    })
     return res.json()
 }
+
+
+
 
 
 export const bookingData = async (userEmail) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/bookings/${userEmail}`)
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    })
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/bookings/${userEmail}`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    })
     return res.json()
 }
 
 
+
+
+
 export const addedFacilitiesData = async (id) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities/user/${id}`)
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    })
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities/user/${id}`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    })
     return res.json()
 }
