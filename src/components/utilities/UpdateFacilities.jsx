@@ -1,7 +1,6 @@
 "use client";
-import { Envelope, FloppyDisk, Pencil, Plus, Xmark } from "@gravity-ui/icons";
+import { FloppyDisk, Pencil, Plus, Xmark } from "@gravity-ui/icons";
 import { Button, FieldGroup, Fieldset, Form, Input, Label, Modal, Surface, TextArea, TextField } from "@heroui/react";
-import { number } from "better-auth";
 import { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 
@@ -252,21 +251,10 @@ const UpdateFacilities = ({ facility }) => {
                                                 className="bg-emerald-500 hover:bg-emerald-600 text-white"
                                             >
                                                 <FloppyDisk />
-                                                Add Facility
+                                                Update Facility
                                             </Button>
-
-                                            <Button
-                                                variant="secondary"
-                                                size="lg"
-                                                type="reset"
-                                            >
-                                                Reset
-                                            </Button>
-
                                         </div>
-
                                     </Fieldset>
-
                                 </Form>
                             </Surface>
                         </Modal.Body>

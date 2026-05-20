@@ -1,7 +1,8 @@
+import DeleteFacilitie from "@/components/utilities/DeleteFacilitie";
 import UpdateFacilities from "@/components/utilities/UpdateFacilities";
 import { auth } from "@/lib/auth";
 import { addedFacilitiesData } from "@/lib/fetchingData/data";
-import { Pencil, TrashBin } from "@gravity-ui/icons";
+import { TrashBin } from "@gravity-ui/icons";
 import { Button } from "@heroui/react";
 import { headers } from "next/headers";
 import Image from "next/image";
@@ -62,7 +63,7 @@ const ManageFacilitiesPage = async () => {
                                     {/* Badges */}
                                     <div className="flex flex-wrap gap-2">
                                         <span className="bg-white/15 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-full border border-white/10">
-                                            ⭐ 4.8 ({facility.facility_type})
+                                            ⭐ {facility.rating} ({facility.facility_type})
                                         </span>
                                         <span className="bg-white/15 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-full border border-white/10">
                                             ৳{facility.price_per_hour}/hr
@@ -73,12 +74,7 @@ const ManageFacilitiesPage = async () => {
                                     <div className="flex gap-2 pt-1">
                                         <UpdateFacilities facility={facility} />
 
-                                        <Button
-                                            variant="flat"
-                                            className="h-12 w-12 min-w-12 rounded-full bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition-colors flex items-center justify-center border border-red-500/30"
-                                        >
-                                            <TrashBin className="w-5 h-5" />
-                                        </Button>
+                                        <DeleteFacilitie facility={facility} />
                                     </div>
 
                                 </div>
