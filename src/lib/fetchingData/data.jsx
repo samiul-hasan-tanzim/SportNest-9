@@ -1,5 +1,5 @@
-export const allFacilitiesData = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities`)
+export const allFacilitiesData = async (searchQuery = '') => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities?search=${searchQuery}`)
     return res.json()
 }
 
