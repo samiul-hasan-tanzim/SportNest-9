@@ -2,6 +2,7 @@ import BookingCard from "@/components/utilities/BookingCard";
 import { auth } from "@/lib/auth";
 import { bookingData } from "@/lib/fetchingData/data";
 import { headers } from "next/headers";
+import Link from "next/link";
 
 const MyBookingsPage = async () => {
     const session = await auth.api.getSession({
@@ -9,26 +10,53 @@ const MyBookingsPage = async () => {
     });
 
     const user = session?.user;
-
     const bookings = await bookingData(user?.email);
 
-    const statusColor = (status) => {
-        if (status === "confirmed") return "bg-green-100 text-green-600";
-        if (status === "cancelled") return "bg-red-100 text-red-600";
-        return "bg-yellow-100 text-yellow-700";
-    };
-
     return (
-        <div className="max-w-6xl mx-auto px-5 py-16">
+        <div className="bg-linear-to-b from-emerald-50 via-white to-emerald-100 px-6 min-h-[70vh]">
 
-            <h1 className="text-3xl font-bold text-gray-800 mb-10">
-                My Bookings
-            </h1>
+            <div className="max-w-6xl mx-auto px-5 py-16">
 
-            <div className="space-y-6">
-                {bookings.map((booking) => (
-                    <BookingCard key={booking._id} booking={booking} />
-                ))}
+                <h1 className="text-3xl font-bold text-gray-800 mb-10">
+                    My Bookings
+                </h1>
+
+                {bookings?.length > 0 ? (
+
+                    <div className="space-y-6">
+                        {bookings.map((booking) => (
+                            <BookingCard key={booking._id} booking={booking} />
+                        ))}
+                    </div>
+
+                ) : (
+
+                    <div className="flex flex-col items-center justify-center text-center py-24 bg-white/60 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-lg">
+
+                        {/* icon */}
+                        <div className="w-16 h-16 flex items-center justify-center rounded-full bg-emerald-100 text-emerald-600 mb-6">
+                            📅
+                        </div>
+
+                        <h2 className="text-2xl font-semibold text-gray-800">
+                            No Bookings Yet
+                        </h2>
+
+                        <p className="text-gray-500 mt-2 max-w-sm">
+                            You haven’t booked any facility yet. Start exploring and reserve your favorite sports venue.
+                        </p>
+
+                        <Link
+                            href="/facilities"
+                            className="mt-6 px-6 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600 transition"
+                        >
+                            Browse Facilities
+                        </Link>
+
+                    </div>
+
+                )}
+
             </div>
 
         </div>

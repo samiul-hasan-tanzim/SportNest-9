@@ -7,10 +7,12 @@ const DetailsPage = async ({ params }) => {
     const facility = await singleFacilitiesData(id);
 
     return (
-        <div className="max-w-7xl mx-auto px-5 py-12">
+        <div className="bg-linear-to-b from-emerald-50 via-white to-emerald-100 px-6 min-h-[70vh]">
+            <div className="max-w-7xl mx-auto px-5 py-12">
 
-            <FacilitiesDetailsCard facility={facility} />
+                <FacilitiesDetailsCard facility={facility} />
 
+            </div>
         </div>
     );
 };

@@ -5,17 +5,58 @@ import logo from '../../../public/assets/logo.png'
 import { FaCalendarCheck, FaPlusCircle, FaFutbol, FaSignOutAlt, FaChevronDown, FaTimes, FaBars } from "react-icons/fa";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar, Switch } from "@heroui/react";
 import { Moon, Sun } from "@gravity-ui/icons";
 
 export default function Navbar() {
+    const pathname = usePathname();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
     const router = useRouter();
 
     const { data: session } = authClient.useSession()
     const user = session?.user
+
+    const linkClass = (path) =>
+        `relative px-4 py-2 rounded-lg font-medium transition-all duration-300 overflow-hidden
+   ${pathname === path
+            ? `
+      text-green-700 bg-green-50
+      before:content-['']
+      before:block
+      before:absolute
+      before:inset-0
+      before:bg-[url("/assets/logo.svg")]
+      before:bg-no-repeat
+      before:bg-right
+      before:bg-contain
+      before:opacity-25
+      before:animate-[slideLeft_0.6s_ease_forwards]
+      `
+            : "text-gray-700 hover:text-green-600 hover:bg-green-50"
+        }`;
+
+    const dropdownLinkClass = (path) =>
+        `relative overflow-hidden flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300
+  ${pathname === path
+            ? `
+      text-green-700 bg-green-50
+      before:content-['']
+      before:block
+      before:absolute
+      before:inset-0
+      before:bg-[url("/assets/logo.svg")]
+      before:bg-no-repeat
+      before:bg-right
+      before:bg-contain
+      before:opacity-20
+      before:animate-[slideRight_0.6s_ease_forwards]
+      `
+            : "text-slate-700 hover:bg-green-50"
+        }`;
+
+
 
     return (
         <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -24,20 +65,23 @@ export default function Navbar() {
                     {/* Logo */}
                     <div className="shrink-0 flex items-center">
                         <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-green-600">
-                            <Image src={logo} width={50} height={50} alt="logo" /><span>SportNest</span>
+                            <Image src={logo} width={50} height={50} alt="logo" />
+                            <span className="font-extrabold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-500 transition-transform duration-200 hover:scale-105">
+                                SportNest
+                            </span>
                         </Link>
                     </div>
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex space-x-6 items-center">
-                        <Link href="/" className="text-gray-700 hover:text-green-600 font-medium">Home</Link>
-                        <Link href="/facilities" className="text-gray-700 hover:text-green-600 font-medium">All Facilities</Link>
+                        <Link href="/" className={`${linkClass("/")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>Home</Link>
+                        <Link href="/facilities" className={`${linkClass("/facilities")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>All Facilities</Link>
                         {
                             user && (
                                 <div className="space-x-6">
-                                    <Link href="/my-bookings" className="text-gray-700 hover:text-green-600 font-medium">My Bookings</Link>
-                                    <Link href="/add-facility" className="text-gray-700 hover:text-green-600 font-medium">Add Facility</Link>
-                                    <Link href="/manage-facilities" className="text-gray-700 hover:text-green-600 font-medium">Manage My Facilities</Link>
+                                    <Link href="/my-bookings" className={`${linkClass("/my-bookings")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>My Bookings</Link>
+                                    <Link href="/add-facility" className={`${linkClass("/add-facility")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>Add Facility</Link>
+                                    <Link href="/manage-facilities" className={`${linkClass("/manage-facilities")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>Manage My Facilities</Link>
                                 </div>
                             )
                         }
@@ -95,9 +139,9 @@ export default function Navbar() {
                                                 </Switch>
                                             </div>
                                             <div className="p-2">
-                                                <Link href="/my-bookings" onClick={() => setProfileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-700 hover:bg-green-50 transition"><FaCalendarCheck className="text-green-500" /><span className="font-medium">My Bookings</span></Link>
-                                                <Link href="/add-facility" onClick={() => setProfileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-700 hover:bg-green-50 transition"><FaPlusCircle className="text-green-500" /><span className="font-medium">Add Facility</span></Link>
-                                                <Link href="/manage-facilities" onClick={() => setProfileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-700 hover:bg-green-50 transition"><FaFutbol className="text-green-500" /><span className="font-medium">Manage Facilities</span></Link>
+                                                <Link href="/my-bookings" onClick={() => setProfileOpen(false)} className={dropdownLinkClass("/my-bookings")}><FaCalendarCheck className="text-green-500 relative z-10" /><span className="font-medium relative z-10">My Bookings</span></Link>
+                                                <Link href="/add-facility" onClick={() => setProfileOpen(false)} className={dropdownLinkClass("/add-facility")}><FaPlusCircle className="text-green-500 relative z-10" /><span className="font-medium relative z-10">Add Facility</span></Link>
+                                                <Link href="/manage-facilities" onClick={() => setProfileOpen(false)} className={dropdownLinkClass("/manage-facilities")}><FaFutbol className="text-green-500 relative z-10" /><span className="font-medium relative z-10">Manage Facilities</span></Link>
                                                 <div className="my-2 border-t border-slate-100"></div>
                                                 <button onClick={() => { authClient.signOut(); router.push('/login');; setProfileOpen(false); }} className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50 transition"><FaSignOutAlt /><span className="font-medium">Logout</span></button>
                                             </div>

@@ -2,18 +2,18 @@
 import { authClient } from "@/lib/auth-client";
 import { DateField, Label } from "@heroui/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaMapMarkerAlt, FaUsers, FaStar, FaClock, FaPhone, FaCheckCircle } from "react-icons/fa";
 
 const FacilitiesDetailsCard = ({ facility }) => {
-    console.log(facility)
     const { data: session, isPending } = authClient.useSession()
     const user = session?.user
 
     const [date, setDate] = useState(null)
     const [timeSlot, setTimeSlot] = useState(facility.slots[0] || '')
     const [hours, setHours] = useState('1')
+    const totalPrice = facility.price_per_hour * Number(hours)
 
     const handelBookingData = async () => {
         const bookingData = {
@@ -33,6 +33,7 @@ const FacilitiesDetailsCard = ({ facility }) => {
             is_popular: true,
             facility_type: facility.facility_type,
             price: facility.price_per_hour,
+            total_price: totalPrice,
             status: 'pending' //
         }
         console.log(bookingData)
@@ -204,6 +205,8 @@ const FacilitiesDetailsCard = ({ facility }) => {
                                     className="w-full border rounded-lg px-3 py-2 mt-1"
                                 />
                             </div>
+
+                            <p>Total Price:  ৳{totalPrice}</p>
 
                             <button onClick={handelBookingData} className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition">
                                 Confirm Booking

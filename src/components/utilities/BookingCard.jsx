@@ -7,7 +7,7 @@ import DeleteModal from "./DeleteModal";
 
 const BookingCard = ({ booking }) => {
     console.log(booking)
-    const { _id, facility_id, name, location, image, rating, facility_type, date, timeSlot, capacity, price, status } = booking;
+    const { _id, facility_id, name, location, image, rating, facility_type, date, timeSlot, capacity, price, total_price, status } = booking;
 
     return (
         <div className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition duration-300 overflow-hidden flex flex-col lg:flex-row">
@@ -80,7 +80,7 @@ const BookingCard = ({ booking }) => {
                     <p className="text-sm text-gray-500">Total Price</p>
 
                     <p className="text-2xl font-bold text-emerald-600">
-                        ৳ {price}
+                        ৳ {total_price}
                     </p>
 
                 </div>
