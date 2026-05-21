@@ -11,15 +11,21 @@ const MyBookingsPage = async () => {
 
     const user = session?.user;
     const bookings = await bookingData(user?.email);
+    const total = bookings.reduce((sum, booking) => sum + booking.total_price, 0);
 
     return (
         <div className="bg-linear-to-b from-emerald-50 via-white to-emerald-100 px-6 min-h-[70vh]">
 
             <div className="max-w-6xl mx-auto px-5 py-16">
 
-                <h1 className="text-3xl font-bold text-gray-800 mb-10">
-                    My Bookings
-                </h1>
+                <div className="flex justify-between">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-10">
+                        My Bookings
+                    </h1>
+                    <h2 className="text-2xl text-gray-800 mb-10">
+                        Total: ৳<span className="font-bold">{total}</span>
+                    </h2>
+                </div>
 
                 {bookings?.length > 0 ? (
 

@@ -2,12 +2,15 @@
 import { authClient } from "@/lib/auth-client";
 import { FloppyDisk, Pencil, Plus, Xmark } from "@gravity-ui/icons";
 import { Button, FieldGroup, Fieldset, Form, Input, Label, Modal, Surface, TextArea, TextField } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { BiEdit } from "react-icons/bi";
 
 const UpdateFacilities = ({ facility }) => {
     const { name, facility_type, location, contact_number, price_per_hour, capacity, maximum_player, availability, opening_time, closing_time, rating, total_reviews, image, description, slots, addAmenity, userId } = facility;
     // console.log(userId)
+    const router = useRouter()
     const [timeSlot, setTimeSlot] = useState([]);
     const [input, setInput] = useState("");
     const [amenities, setAmenities] = useState([]);
@@ -44,7 +47,8 @@ const UpdateFacilities = ({ facility }) => {
             body: JSON.stringify(newFacilityData)
         });
         const res = await req.json();
-        console.log(res)
+        router.refresh('/manage-facilities')
+        toast.success('Your Facility Updated Successfully!!')
     };
 
 
@@ -249,6 +253,7 @@ const UpdateFacilities = ({ facility }) => {
                                         <div className="flex justify-end gap-4 mt-10">
 
                                             <Button
+                                                slot="close"
                                                 type="submit"
                                                 size="lg"
                                                 className="bg-emerald-500 hover:bg-emerald-600 text-white"

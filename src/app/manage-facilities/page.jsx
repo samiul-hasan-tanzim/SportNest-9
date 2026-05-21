@@ -21,7 +21,7 @@ const ManageFacilitiesPage = async () => {
                 <div className="max-w-7xl mx-auto">
 
                     <div className="mb-12 text-center md:text-left">
-                        <h1 className="text-4xl font-black bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                        <h1 className="py-2 text-4xl font-black bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                             Manage My Facilities
                         </h1>
                         <p className="text-gray-500 mt-2">

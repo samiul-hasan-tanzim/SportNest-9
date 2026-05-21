@@ -4,8 +4,8 @@ import { Button, Modal } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { FiDelete } from "react-icons/fi";
 
-const DeleteModal = ({ bookingId }) => {
-    // console.log(bookingId)
+const DeleteModal = ({ booking }) => {
+    const bookingId = booking._id
     const router = useRouter()
 
     const handelDelete = async (bookingId) => {
@@ -41,13 +41,11 @@ const DeleteModal = ({ bookingId }) => {
                             <Modal.Icon className="bg-default text-foreground">
                                 <FiDelete className="size-5" />
                             </Modal.Icon>
-                            <Modal.Heading>Welcome to HeroUI</Modal.Heading>
+                            <Modal.Heading>Do you want Cancel this Booking?</Modal.Heading>
                         </Modal.Header>
                         <Modal.Body>
-                            <p>
-                                A beautiful, fast, and modern React UI library for building accessible and
-                                customizable web applications with ease.
-                            </p>
+                            <p>Name: {booking.name}</p>
+                            <p>Price: ৳ {booking.price} only</p>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button

@@ -8,12 +8,16 @@ import { authClient } from "@/lib/auth-client";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar, Switch } from "@heroui/react";
 import { Moon, Sun } from "@gravity-ui/icons";
+import toast from "react-hot-toast";
+import { useTheme } from "next-themes";
 
 export default function Navbar() {
     const pathname = usePathname();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
     const router = useRouter();
+
+    const { theme, setTheme } = useTheme();
 
     const { data: session } = authClient.useSession()
     const user = session?.user
@@ -66,22 +70,22 @@ export default function Navbar() {
                     <div className="shrink-0 flex items-center">
                         <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-green-600">
                             <Image src={logo} width={50} height={50} alt="logo" />
-                            <span className="font-extrabold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-500 transition-transform duration-200 hover:scale-105">
+                            <span className="font-extrabold tracking-wide bg-clip-text text-transparent bg-linear-to-r from-emerald-500 to-teal-500 transition-transform duration-200 hover:scale-105">
                                 SportNest
                             </span>
                         </Link>
                     </div>
 
                     {/* Desktop Menu */}
-                    <div className="hidden md:flex space-x-6 items-center">
-                        <Link href="/" className={`${linkClass("/")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>Home</Link>
-                        <Link href="/facilities" className={`${linkClass("/facilities")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>All Facilities</Link>
+                    <div className="hidden md:flex space-x-2 items-center">
+                        <Link href="/" className={`${linkClass("/")}  relative z-10 text-gray-700 hover:text-green-600 font-extrabold`}>Home</Link>
+                        <Link href="/facilities" className={`${linkClass("/facilities")}  relative z-10 text-gray-700 hover:text-green-600 font-extrabold`}>All Facilities</Link>
                         {
                             user && (
-                                <div className="space-x-6">
-                                    <Link href="/my-bookings" className={`${linkClass("/my-bookings")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>My Bookings</Link>
-                                    <Link href="/add-facility" className={`${linkClass("/add-facility")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>Add Facility</Link>
-                                    <Link href="/manage-facilities" className={`${linkClass("/manage-facilities")}  relative z-10 text-gray-700 hover:text-green-600 font-medium`}>Manage My Facilities</Link>
+                                <div className="space-x-2">
+                                    <Link href="/my-bookings" className={`${linkClass("/my-bookings")}  relative z-10 text-gray-700 hover:text-green-600 font-extrabold`}>My Bookings</Link>
+                                    <Link href="/add-facility" className={`${linkClass("/add-facility")}  relative z-10 text-gray-700 hover:text-green-600 font-extrabold`}>Add Facility</Link>
+                                    <Link href="/manage-facilities" className={`${linkClass("/manage-facilities")}  relative z-10 text-gray-700 hover:text-green-600 font-extrabold`}>Manage My Facilities</Link>
                                 </div>
                             )
                         }
@@ -122,7 +126,7 @@ export default function Navbar() {
                                             <div className="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
                                                 <span className="text-sm font-medium text-slate-700">Theme</span>
 
-                                                <Switch defaultSelected size="lg">
+                                                <Switch defaultSelected size="lg" onChange={() => setTheme(theme === "dark" ? "Light" : "Dark")}>
                                                     {({ isSelected }) => (
                                                         <Switch.Control>
                                                             <Switch.Thumb>
@@ -143,7 +147,7 @@ export default function Navbar() {
                                                 <Link href="/add-facility" onClick={() => setProfileOpen(false)} className={dropdownLinkClass("/add-facility")}><FaPlusCircle className="text-green-500 relative z-10" /><span className="font-medium relative z-10">Add Facility</span></Link>
                                                 <Link href="/manage-facilities" onClick={() => setProfileOpen(false)} className={dropdownLinkClass("/manage-facilities")}><FaFutbol className="text-green-500 relative z-10" /><span className="font-medium relative z-10">Manage Facilities</span></Link>
                                                 <div className="my-2 border-t border-slate-100"></div>
-                                                <button onClick={() => { authClient.signOut(); router.push('/login');; setProfileOpen(false); }} className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50 transition"><FaSignOutAlt /><span className="font-medium">Logout</span></button>
+                                                <button onClick={() => { authClient.signOut(); router.push('/login'); setProfileOpen(false); toast.success('Logout Successfull') }} className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50 transition"><FaSignOutAlt /><span className="font-medium">Logout</span></button>
                                             </div>
                                         </div>
                                     )}
@@ -212,8 +216,27 @@ export default function Navbar() {
                                     </Link>
 
                                     <div className="border-t border-slate-100" />
+                                    <div className="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
+                                        <span className="text-sm font-medium text-slate-700">Theme</span>
 
-                                    <button onClick={() => { authClient.signOut(); setMobileMenuOpen(false); router.push("/login"); }} className="flex items-center gap-3 w-full px-4 py-3 text-red-500 hover:bg-red-50">
+                                        <Switch defaultSelected size="lg" onChange={() => setTheme(theme === "dark" ? "Light" : "Dark")}>
+                                            {({ isSelected }) => (
+                                                <Switch.Control>
+                                                    <Switch.Thumb>
+                                                        <Switch.Icon>
+                                                            {isSelected ? (
+                                                                <Sun className="size-3 text-inherit opacity-100" />
+                                                            ) : (
+                                                                <Moon className="size-3 text-inherit opacity-70" />
+                                                            )}
+                                                        </Switch.Icon>
+                                                    </Switch.Thumb>
+                                                </Switch.Control>
+                                            )}
+                                        </Switch>
+                                    </div>
+
+                                    <button onClick={() => { authClient.signOut(); setMobileMenuOpen(false); router.push("/login"); toast.success('Logout Successfull') }} className="flex items-center gap-3 w-full px-4 py-3 text-red-500 hover:bg-red-50">
                                         <FaSignOutAlt /> Logout
                                     </button>
                                 </>

@@ -108,7 +108,7 @@ const AddFacilityPage = () => {
                                         />
 
                                     </TextField>
-                                    <TextField isDisabled name="email">
+                                    <TextField name="email">
 
                                         <Label className="mb-2 text-sm font-semibold text-gray-700">
                                             Your Email

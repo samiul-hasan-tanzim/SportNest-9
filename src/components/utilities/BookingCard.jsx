@@ -104,7 +104,7 @@ const BookingCard = ({ booking }) => {
                         </button>
                     </Link>
 
-                    <DeleteModal bookingId={_id} />
+                    <DeleteModal booking={booking} />
 
                 </div>
 

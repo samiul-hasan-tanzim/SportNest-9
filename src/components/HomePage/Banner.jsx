@@ -34,9 +34,9 @@ const Banner = () => {
                             className="flex-1 px-4 py-3 bg-transparent outline-none text-white placeholder-gray-300"
                         />
 
-                        <button className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 transition flex items-center gap-2">
+                        <button className="px-6 md:px-7 py-5 md:p-3 bg-emerald-500 hover:bg-emerald-600 transition flex items-center gap-2">
                             <FaSearch />
-                            Search
+                            <p className="hidden md:block">Search</p>
                         </button>
 
                     </div>

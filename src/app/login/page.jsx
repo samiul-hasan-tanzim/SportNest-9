@@ -38,7 +38,7 @@ const LoginPage = () => {
             <div className="w-full max-w-md bg-white shadow-xl rounded-3xl p-8 border border-slate-200">
 
                 <div className="text-center mb-6">
-                    <span className="inline-block px-4 py-1 rounded-full text-sm font-semibold text-white bg-linear-to-r from-green-500 via-emerald-500 to-lime-500 shadow">
+                    <span className="inline-block px-4 py-1 rounded-full text-2xl font-semibold text-white bg-linear-to-r from-green-500 via-emerald-500 to-lime-500 shadow">
                         Welcome Back
                     </span>
                     <p className="text-slate-500 text-sm mt-2">
