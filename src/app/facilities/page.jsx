@@ -5,7 +5,10 @@ import { allFacilitiesData } from "@/lib/fetchingData/data";
 const FacilitiesPage = async ({ searchParams }) => {
     const searchResults = await searchParams
 
-    const facilities = await allFacilitiesData(searchResults?.searchQuery || '');
+    const searchQuery = searchResults?.searchQuery || ''
+    const type = searchResults?.type || ''
+
+    const facilities = await allFacilitiesData(searchQuery, type);
 
     return (
         <div className="bg-linear-to-b from-emerald-50 via-white to-emerald-100 px-6 min-h-[70vh]">

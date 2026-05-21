@@ -1,15 +1,8 @@
 import { headers } from "next/headers"
 import { auth } from "../auth"
 
-export const allFacilitiesData = async (searchQuery = '') => {
-    const { token } = await auth.api.getToken({
-        headers: await headers()
-    })
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities?search=${searchQuery}`, {
-        headers: {
-            authorization: `Bearer ${token}`
-        }
-    })
+export const allFacilitiesData = async (searchQuery = '', type = '') => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities?search=${searchQuery}&type=${type}`)
     return res.json()
 }
 
