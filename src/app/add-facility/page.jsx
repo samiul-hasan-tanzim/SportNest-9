@@ -4,6 +4,7 @@ import { FloppyDisk, Plus, Xmark } from "@gravity-ui/icons";
 import { Button, Fieldset, FieldGroup, Form, Input, Label, TextArea, TextField } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const AddFacilityPage = () => {
     const { data: session, isPending, } = authClient.useSession()
@@ -63,6 +64,7 @@ const AddFacilityPage = () => {
             // router.refresh()
             router.push('/manage-facilities')
         }
+        toast.success('Your Facility added Successfully')
     };
 
     return (

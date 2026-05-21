@@ -3,6 +3,7 @@ import { authClient } from "@/lib/auth-client";
 import { TrashBin } from "@gravity-ui/icons";
 import { Button, Modal } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { TbTrash } from "react-icons/tb";
 
 const DeleteFacilitie = ({ facility }) => {
@@ -22,6 +23,7 @@ const DeleteFacilitie = ({ facility }) => {
         if (data.deletedCount > 0) {
             router.refresh()
         }
+        toast.success("Successfully Deleted this Item")
     }
 
 

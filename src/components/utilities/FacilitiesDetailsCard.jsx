@@ -56,8 +56,8 @@ const FacilitiesDetailsCard = ({ facility }) => {
             body: JSON.stringify(bookingData)
         })
         const data = await res.json()
-        toast.success("Your Booking Successfull")
         router.push('/my-bookings')
+        toast.success("Your Booking Successfull")
     }
 
 
