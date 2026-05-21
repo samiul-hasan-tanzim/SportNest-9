@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { FloppyDisk, Pencil, Plus, Xmark } from "@gravity-ui/icons";
 import { Button, FieldGroup, Fieldset, Form, Input, Label, Modal, Surface, TextArea, TextField } from "@heroui/react";
 import { useState } from "react";
@@ -6,7 +7,7 @@ import { BiEdit } from "react-icons/bi";
 
 const UpdateFacilities = ({ facility }) => {
     const { name, facility_type, location, contact_number, price_per_hour, capacity, maximum_player, availability, opening_time, closing_time, rating, total_reviews, image, description, slots, addAmenity, userId } = facility;
-    console.log(userId)
+    // console.log(userId)
     const [timeSlot, setTimeSlot] = useState([]);
     const [input, setInput] = useState("");
     const [amenities, setAmenities] = useState([]);
@@ -25,18 +26,20 @@ const UpdateFacilities = ({ facility }) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
-        console.log(data)
+        // console.log(data)
 
         const newFacilityData = {
             ...data,
             slots: timeSlot,
             amenities,
         };
-        console.log(newFacilityData)
+        // console.log(newFacilityData)
+        const { data: tokenData } = await authClient.token()
         const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities/user/${userId}`, {
             method: 'PATCH',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                authorization: `Bearer ${tokenData?.token}`
             },
             body: JSON.stringify(newFacilityData)
         });

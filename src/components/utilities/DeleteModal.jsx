@@ -1,17 +1,24 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { Button, Modal } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { FiDelete } from "react-icons/fi";
 
 const DeleteModal = ({ bookingId }) => {
-    console.log(bookingId)
+    // console.log(bookingId)
     const router = useRouter()
+
     const handelDelete = async (bookingId) => {
+        const { data: tokenData } = await authClient.token()
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/bookings/${bookingId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                authorization: `Bearer ${tokenData?.token}`
+            }
         })
         const data = await res.json()
-        console.log(data)
+        // console.log(data)
         if (data.deletedCount > 0) {
             router.refresh()
         }

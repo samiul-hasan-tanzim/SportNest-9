@@ -1,16 +1,22 @@
 'use client'
+import { authClient } from "@/lib/auth-client";
 import { TrashBin } from "@gravity-ui/icons";
 import { Button, Modal } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { TbTrash } from "react-icons/tb";
 
 const DeleteFacilitie = ({ facility }) => {
-    console.log(facility)
+    // console.log(facility)
     const router = useRouter()
 
     const handelDelete = async (userId) => {
+
+        const { data: tokenData } = await authClient.token()
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities/${userId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                authorization: `Bearer ${tokenData?.token}`
+            }
         })
         const data = await res.json()
         if (data.deletedCount > 0) {

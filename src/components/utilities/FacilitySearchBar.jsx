@@ -22,22 +22,23 @@ const FacilitySearchBar = () => {
             params.delete("searchQuery")
         }
         router.push(`/facilities?${params.toString()}`)
-        setSearch('')
+        // setSearch('')
     }
 
 
     const handleFilter = (e) => {
-        const params = new URLSearchParams(searchQuery?.toString() || '')
+        const value = e.target.value;
+        setType(value);
 
-        if (e.target.value) {
-            params.set("type", e.target.value)
-        }
-        else {
-            params.delete("type")
+        const params = new URLSearchParams(searchQuery?.toString() || '');
+        if (value) {
+            params.set("type", value);
+        } else {
+            params.delete("type");
         }
 
-        router.push(`/facilities?${params.toString()}`)
-    }
+        router.push(`/facilities?${params.toString()}`);
+    };
 
 
     return (

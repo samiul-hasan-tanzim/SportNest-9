@@ -1,6 +1,7 @@
 import FacilitiesCard from "@/components/utilities/FacilitiesCard";
 import FacilitySearchBar from "@/components/utilities/FacilitySearchBar";
 import { allFacilitiesData } from "@/lib/fetchingData/data";
+import Link from "next/link";
 
 const FacilitiesPage = async ({ searchParams }) => {
     const searchResults = await searchParams
@@ -47,13 +48,13 @@ const FacilitiesPage = async ({ searchParams }) => {
                                 We couldn&apos;t find any facilities matching your search.
                                 Try searching with a different sport, location, or keyword.
                             </p>
-                            {/* 
+
                             <Link
                                 href="/facilities"
                                 className="mt-6 px-5 py-2 rounded-full bg-emerald-500 text-white text-sm font-medium hover:bg-emerald-600 transition"
                             >
-                                Reset Search
-                            </Link> */}
+                                Reset Search and Filter
+                            </Link>
 
                         </div>
                     )

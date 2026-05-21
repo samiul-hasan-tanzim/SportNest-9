@@ -2,6 +2,7 @@
 import { authClient } from "@/lib/auth-client";
 import { DateField, Label } from "@heroui/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaMapMarkerAlt, FaUsers, FaStar, FaClock, FaPhone, FaCheckCircle } from "react-icons/fa";
@@ -10,12 +11,19 @@ const FacilitiesDetailsCard = ({ facility }) => {
     const { data: session, isPending } = authClient.useSession()
     const user = session?.user
 
+    const router = useRouter()
+    const [isHover, setIsHover] = useState(false)
+
     const [date, setDate] = useState(null)
-    const [timeSlot, setTimeSlot] = useState(facility.slots[0] || '')
+    const [timeSlot, setTimeSlot] = useState()
     const [hours, setHours] = useState('1')
     const totalPrice = facility.price_per_hour * Number(hours)
 
     const handelBookingData = async () => {
+
+        if (!date) return
+        if (!timeSlot) return
+
         const bookingData = {
             user_email: user?.email,
             facility_id: facility._id, //
@@ -36,16 +44,20 @@ const FacilitiesDetailsCard = ({ facility }) => {
             total_price: totalPrice,
             status: 'pending' //
         }
-        console.log(bookingData)
+        // console.log(bookingData)
+
+        const { data: tokenData } = await authClient.token()
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/bookings`, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                authorization: `Bearer ${tokenData?.token}`
             },
             body: JSON.stringify(bookingData)
         })
         const data = await res.json()
         toast.success("Your Booking Successfull")
+        router.push('/my-bookings')
     }
 
 
@@ -189,6 +201,7 @@ const FacilitiesDetailsCard = ({ facility }) => {
                                 <label className="text-sm text-gray-600">Select Time Slot</label>
 
                                 <select className="w-full border rounded-lg px-3 py-2 mt-1" onChange={(e) => setTimeSlot(e.target.value)}>
+                                    <option value="">Please Select a Time slot</option>
                                     {facility.slots.map((slot, i) => (
                                         <option key={i}>{slot}</option>
                                     ))}
@@ -208,8 +221,16 @@ const FacilitiesDetailsCard = ({ facility }) => {
 
                             <p>Total Price:  ৳{totalPrice}</p>
 
-                            <button onClick={handelBookingData} className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition">
-                                Confirm Booking
+                            <button
+                                onClick={handelBookingData}
+                                className={`${!date || !timeSlot ? "bg-gray-300 cursor-not-allowed" : "bg-emerald-500 hover:bg-emerald-600 text-white"} w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition`}
+                                onMouseEnter={() => setIsHover(true)}
+                                onMouseLeave={() => setIsHover(false)}>
+
+                                {(!date || !timeSlot) && isHover
+                                    ? "Please Add Date and Time"
+                                    : "Confirm Booking"}
+
                             </button>
 
                         </div>

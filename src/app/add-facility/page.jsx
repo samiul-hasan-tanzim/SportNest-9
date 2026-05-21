@@ -8,7 +8,7 @@ import { useState } from "react";
 const AddFacilityPage = () => {
     const { data: session, isPending, } = authClient.useSession()
     const user = session?.user
-    console.log(user)
+    // console.log(user)
 
     const router = useRouter()
     const [timeSlot, setTimeSlot] = useState([]);
@@ -44,16 +44,21 @@ const AddFacilityPage = () => {
             userId: user?.id,
             userEmail: user?.email
         };
-        console.log(newFacilityData)
+        // console.log(newFacilityData)
+
+
+        const { data: tokenData } = await authClient.token()
+        // console.log(tokenData)
         const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/facilities`, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                authorization: `Bearer ${tokenData?.token}`
             },
             body: JSON.stringify(newFacilityData)
         });
         const res = await req.json();
-        console.log(res)
+        // console.log(res)
         if (res.insertedId) {
             // router.refresh()
             router.push('/manage-facilities')
@@ -396,7 +401,7 @@ const AddFacilityPage = () => {
                                     </TextField>
 
                                 </FieldGroup>
-                                <div className="flex flex-col sm:flex-row gap-4 mt-14">
+                                <div className="flex gap-4 mt-14">
 
                                     <Button
                                         type="submit"

@@ -6,7 +6,7 @@ import { FaMapMarkerAlt, FaClock, FaStar, FaUsers, FaHeart } from "react-icons/f
 import DeleteModal from "./DeleteModal";
 
 const BookingCard = ({ booking }) => {
-    console.log(booking)
+    // console.log(booking)
     const { _id, facility_id, name, location, image, rating, facility_type, date, timeSlot, capacity, price, total_price, status } = booking;
 
     return (
