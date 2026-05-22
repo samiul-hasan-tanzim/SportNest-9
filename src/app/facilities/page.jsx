@@ -35,7 +35,7 @@ const FacilitiesPage = async ({ searchParams }) => {
 
                 {
                     facilities.length > 0 ? (
-                        <FacilitiesCard facilities={facilities} totalBookings={totalBookings} />
+                        <FacilitiesCard facilities={facilities} />
                     ) : (
                         <div className="flex flex-col items-center justify-center py-20 text-center">
 
