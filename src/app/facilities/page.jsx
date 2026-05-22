@@ -12,8 +12,7 @@ const FacilitiesPage = async ({ searchParams }) => {
     const facilities = await allFacilitiesData(searchQuery, type);
     // console.log(facilities)
 
-    const bookingCollectionData = await allBookingData()
-    const totalBookings = bookingCollectionData.length
+
 
     return (
         <div className="bg-linear-to-b from-emerald-50 via-white to-emerald-100 px-6 min-h-[70vh]">
