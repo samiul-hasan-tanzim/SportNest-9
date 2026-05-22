@@ -19,8 +19,10 @@ const RegisterPage = () => {
             ...userData
         });
         if (data) {
+            window.location.href = "/login";
             toast.success('Login Successfull')
             redirect('/login')
+
         }
         if (error) {
             toast.error(error.message)

@@ -6,10 +6,11 @@ import { Button, Description, FieldError, Form, Input, Label, TextField } from "
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const router = useRouter()
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -19,8 +20,10 @@ const LoginPage = () => {
             ...userData
         });
         if (data) {
+            // router.push("/");
+            // router.refresh();
+            window.location.href = "/";
             toast.success('Login Successfull')
-            redirect('/')
         }
         if (error) {
             toast.error(error.message)
