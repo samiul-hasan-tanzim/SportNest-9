@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaMapMarkerAlt, FaUsers, FaStar, FaClock, FaFutbol, FaCheck } from "react-icons/fa";
 
-const FacilitiesCard = ({ facilities, totalBookings }) => {
+const FacilitiesCard = ({ facilities }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
     const start = (currentPage - 1) * itemsPerPage;
@@ -62,11 +62,6 @@ const FacilitiesCard = ({ facilities, totalBookings }) => {
                             <p className="flex items-center gap-2 text-sm text-gray-500">
                                 <FaClock className="text-emerald-500" />
                                 {facility.opening_time} - {facility.closing_time}
-                            </p>
-
-                            <p className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                                <FaCheck className="text-emerald-500" />
-                                {totalBookings}
                             </p>
 
                             <div className="flex justify-between items-center">
