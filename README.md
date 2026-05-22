@@ -26,3 +26,4 @@ SportNest is a modern, high-performance sports facility booking application buil
 - **next-themes**: ^0.4.6
 - **@gravity-ui/icons**: ^2.18.0
 - **tailwindcss**: ^4
+- **framer-motion**:"^12.40.0

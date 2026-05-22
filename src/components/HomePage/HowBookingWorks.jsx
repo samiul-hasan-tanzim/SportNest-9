@@ -1,4 +1,6 @@
+'use client'
 import { FaSearch, FaCalendarCheck, FaFutbol } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function HowBookingWorks() {
     const steps = [
@@ -26,16 +28,30 @@ export default function HowBookingWorks() {
         <section className="py-20 bg-linear-to-b from-green-50 to-white">
             <div className="max-w-6xl mx-auto px-6">
 
-                <div className="text-center mb-16">
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 0.8,
+                        ease: "easeOut"
+                    }}
+                    viewport={{ once: true }} className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-gray-800">
                         How Booking Works
                     </h2>
                     <p className="text-gray-600 mt-4">
                         Booking your favorite sports facility is quick and simple.
                     </p>
-                </div>
+                </motion.div>
 
-                <div className="relative">
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 0.8,
+                        ease: "easeOut"
+                    }}
+                    viewport={{ once: true }} className="relative">
 
                     <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-green-200"></div>
 
@@ -65,7 +81,7 @@ export default function HowBookingWorks() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </motion.div>
 
             </div>
         </section>
