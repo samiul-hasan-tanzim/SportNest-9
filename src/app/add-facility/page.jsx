@@ -1,9 +1,10 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
+import { allFacilitiesData } from "@/lib/fetchingData/clientData";
 import { FloppyDisk, Plus, Xmark } from "@gravity-ui/icons";
 import { Button, Fieldset, FieldGroup, Form, Input, Label, TextArea, TextField } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const AddFacilityPage = () => {
@@ -33,13 +34,27 @@ const AddFacilityPage = () => {
         setAmenities(amenities.filter((a) => a !== item));
     };
 
+    const [featuredData, setFeaturedData] = useState([]);
+
+    useEffect(() => {
+        const loadData = async () => {
+            const data = await allFacilitiesData();
+            setFeaturedData(data);
+        };
+        loadData();
+    }, []);
+    console.log(featuredData.length)
+
     const onSubmit = async (e) => {
+
+
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
 
         const newFacilityData = {
             ...data,
+            id: featuredData.length + 1,
             slots: timeSlot,
             amenities,
             userId: user?.id,
@@ -62,7 +77,7 @@ const AddFacilityPage = () => {
         // console.log(res)
         if (res.insertedId) {
             // router.refresh()
-            router.push('/manage-facilities')
+            // router.push('/manage-facilities')
         }
         toast.success('Your Facility added Successfully')
     };

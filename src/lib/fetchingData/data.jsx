@@ -25,6 +25,18 @@ export const singleFacilitiesData = async (id) => {
 
 
 
+export const allBookingData = async () => {
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    })
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/bookings`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    })
+    return res.json()
+}
+
 
 
 export const bookingData = async (userEmail) => {

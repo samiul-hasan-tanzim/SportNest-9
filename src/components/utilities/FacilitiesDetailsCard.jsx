@@ -25,6 +25,7 @@ const FacilitiesDetailsCard = ({ facility }) => {
         if (!timeSlot) return
 
         const bookingData = {
+            id: facility.id,
             user_email: user?.email,
             facility_id: facility._id, //
             name: facility.name, //

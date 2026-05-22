@@ -1,6 +1,6 @@
 import FacilitiesCard from "@/components/utilities/FacilitiesCard";
 import FacilitySearchBar from "@/components/utilities/FacilitySearchBar";
-import { allFacilitiesData } from "@/lib/fetchingData/data";
+import { allBookingData, allFacilitiesData } from "@/lib/fetchingData/data";
 import Link from "next/link";
 
 const FacilitiesPage = async ({ searchParams }) => {
@@ -10,6 +10,10 @@ const FacilitiesPage = async ({ searchParams }) => {
     const type = searchResults?.type || ''
 
     const facilities = await allFacilitiesData(searchQuery, type);
+    // console.log(facilities)
+
+    const bookingCollectionData = await allBookingData()
+    const totalBookings = bookingCollectionData.length
 
     return (
         <div className="bg-linear-to-b from-emerald-50 via-white to-emerald-100 px-6 min-h-[70vh]">
@@ -32,7 +36,7 @@ const FacilitiesPage = async ({ searchParams }) => {
 
                 {
                     facilities.length > 0 ? (
-                        <FacilitiesCard facilities={facilities} />
+                        <FacilitiesCard facilities={facilities} totalBookings={totalBookings} />
                     ) : (
                         <div className="flex flex-col items-center justify-center py-20 text-center">
 
