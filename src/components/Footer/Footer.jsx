@@ -5,7 +5,7 @@ import logo from '../../../public/assets/logo.png'
 
 const Footer = () => {
     return (
-        <footer className="relative bg-linear-to-r from-green-950 via-green-900 to-green-950 text-gray-300">
+        <footer className="relative bg-linear-to-r from-green-900 via-green-900 to-green-900 text-gray-300">
 
             <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-green-400 to-transparent"></div>
 

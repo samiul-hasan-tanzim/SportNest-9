@@ -1,6 +1,7 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
 import { allFacilitiesData } from "@/lib/fetchingData/clientData";
+import { bookingData } from "@/lib/fetchingData/singleBookingData";
 import { FloppyDisk, Plus, Xmark } from "@gravity-ui/icons";
 import { Button, Fieldset, FieldGroup, Form, Input, Label, TextArea, TextField } from "@heroui/react";
 import { useRouter } from "next/navigation";
@@ -10,7 +11,6 @@ import toast from "react-hot-toast";
 const AddFacilityPage = () => {
     const { data: session, isPending, } = authClient.useSession()
     const user = session?.user
-    // console.log(user)
 
     const router = useRouter()
     const [timeSlot, setTimeSlot] = useState([]);
@@ -43,7 +43,7 @@ const AddFacilityPage = () => {
         };
         loadData();
     }, []);
-    console.log(featuredData.length)
+    // console.log(featuredData.length)
 
     const onSubmit = async (e) => {
 
@@ -83,10 +83,10 @@ const AddFacilityPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-emerald-50 py-16 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto min-h-screen  py-16 px-4 sm:px-6">
 
-            <div className="max-w-7xl mx-auto">
-                <div className="mb-12 text-center">
+            <div className="">
+                <div className="mb-12 text-center bg-linear-to-br from-slate-50 via-white to-emerald-50 rounded-2xl p-5">
 
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium mb-5">
                         Sports Facility Management

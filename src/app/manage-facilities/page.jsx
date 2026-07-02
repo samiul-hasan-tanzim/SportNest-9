@@ -16,9 +16,9 @@ const ManageFacilitiesPage = async () => {
 
     return (
         <div className="bg-linear-to-b from-emerald-50 via-white to-emerald-100 px-6 min-h-[70vh]">
-            <div className="min-h-screen py-16 px-6">
+            <div className="max-w-7xl mx-auto  min-h-screen py-16 px-6">
 
-                <div className="max-w-7xl mx-auto">
+                <div className="">
 
                     <div className="mb-12 text-center md:text-left">
                         <h1 className="py-2 text-4xl font-black bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
@@ -40,7 +40,7 @@ const ManageFacilitiesPage = async () => {
                                 >
 
                                     <Image
-                                        src={facility.image}
+                                        src={facility?.image}
                                         alt={facility.name}
                                         fill
                                         className="absolute inset-0 w-full h-full object-cover"

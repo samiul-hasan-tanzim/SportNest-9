@@ -16,7 +16,7 @@ const MyBookingsPage = async () => {
     return (
         <div className="bg-linear-to-b from-emerald-50 via-white to-emerald-100 px-6 min-h-[70vh]">
 
-            <div className="max-w-6xl mx-auto px-5 py-16">
+            <div className="max-w-7xl mx-auto px-8 py-16">
 
                 <div className="flex justify-between">
                     <h1 className="text-3xl font-bold text-gray-800 mb-10">

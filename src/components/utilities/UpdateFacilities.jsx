@@ -64,7 +64,7 @@ const UpdateFacilities = ({ facility }) => {
             </Button>
             <Modal.Backdrop>
                 <Modal.Container placement="auto">
-                    <Modal.Dialog className="sm:max-w-xl">
+                    <Modal.Dialog className="sm:max-w-xl lg:max-w-fit">
                         <Modal.CloseTrigger />
                         <Modal.Header>
                             <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">

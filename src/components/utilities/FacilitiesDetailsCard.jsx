@@ -1,5 +1,6 @@
 "use client"
 import { authClient } from "@/lib/auth-client";
+import { bookingData } from "@/lib/fetchingData/singleBookingData";
 import { DateField, Label } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -10,6 +11,20 @@ import { FaMapMarkerAlt, FaUsers, FaStar, FaClock, FaPhone, FaCheckCircle } from
 const FacilitiesDetailsCard = ({ facility }) => {
     const { data: session, isPending } = authClient.useSession()
     const user = session?.user
+
+    const [bookings, setBookings] = useState([])
+    useEffect(() => {
+        const getData = async () => {
+            const data = await bookingData(user?.email);
+            setBookings(data)
+        }
+        getData()
+    }, [user?.email])
+    const alreadyBooked = bookings.some(
+        (booking) => booking.facility_id === facility._id
+    );
+    // const ids = bookings.map(item => item.id);
+    // const hasDuplicate = ids.length !== new Set(ids).size;
 
     const router = useRouter()
     const [isHover, setIsHover] = useState(false)
@@ -222,17 +237,43 @@ const FacilitiesDetailsCard = ({ facility }) => {
 
                             <p>Total Price:  ৳{totalPrice}</p>
 
-                            <button
-                                onClick={handelBookingData}
-                                className={`${!date || !timeSlot ? "bg-gray-300 cursor-not-allowed" : "bg-emerald-500 hover:bg-emerald-600 text-white"} w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition`}
-                                onMouseEnter={() => setIsHover(true)}
-                                onMouseLeave={() => setIsHover(false)}>
+                            {
+                                alreadyBooked ? (
+                                    <button
+                                        disabled
+                                        className="w-full py-3 bg-gray-300 text-gray-600 cursor-not-allowed font-semibold rounded-lg"
+                                    >
+                                        You Already Booked This Facility
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={handelBookingData}
+                                        className={`${!date || !timeSlot ? "bg-gray-300 cursor-not-allowed" : "bg-emerald-500 hover:bg-emerald-600 text-white"} w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition`}
+                                        onMouseEnter={() => setIsHover(true)}
+                                        onMouseLeave={() => setIsHover(false)}>
 
-                                {(!date || !timeSlot) && isHover
-                                    ? "Please Add Date and Time"
-                                    : "Confirm Booking"}
+                                        {(!date || !timeSlot) && isHover
+                                            ? "Please Add Date and Time"
+                                            : "Confirm Booking"}
 
-                            </button>
+                                    </button>
+                                )
+                            }
+                            {/* {
+                                hasDuplicate ? <button className="bg-gray-300 cursor-not-allowed w-full py-3 rounded-lg">You Already Booked It</button> : (
+                                    <button
+                                        onClick={handelBookingData}
+                                        className={`${!date || !timeSlot ? "bg-gray-300 cursor-not-allowed" : "bg-emerald-500 hover:bg-emerald-600 text-white"} w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition`}
+                                        onMouseEnter={() => setIsHover(true)}
+                                        onMouseLeave={() => setIsHover(false)}>
+
+                                        {(!date || !timeSlot) && isHover
+                                            ? "Please Add Date and Time"
+                                            : "Confirm Booking"}
+
+                                    </button>
+                                )
+                            } */}
 
                         </div>
 

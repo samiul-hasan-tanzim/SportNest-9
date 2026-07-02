@@ -26,7 +26,7 @@ export default function HowBookingWorks() {
 
     return (
         <section className="py-20 bg-linear-to-b from-green-50 to-white">
-            <div className="max-w-6xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-6">
 
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
